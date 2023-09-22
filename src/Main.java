@@ -14,13 +14,16 @@ public class Main {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             byte[] buffer = new byte[3];
+            int bytesRead = fis.read(buffer);
 
+            if (bytesRead >= 3) {
                 String fileSignature = bytesToHex(buffer);
                // System.out.println(fileSignature);
                 var format = types.get(fileSignature);
                 System.out.println("Формат файла: " + format);
-
-
+            } else {
+                System.out.println("Файл слишком короткий для определения типа.");
+            }
         } catch (IOException e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
         }
